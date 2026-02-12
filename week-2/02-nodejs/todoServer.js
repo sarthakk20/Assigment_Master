@@ -93,8 +93,8 @@ const newTodo = {
 };
   fs.readFile('todos.json','utf-8',(err,data)=>{
     if (err) throw err;
-    const todos = JSON.parse(data)
-    todos.push(newTodo)
+    const todos = JSON.parse(data);
+    todos.push(newTodo);
     
     fs.writeFile("todos.json",JSON.stringify(todos),(err)=>{
       if (err) throw err;
@@ -107,8 +107,7 @@ app.put('/todos/:id',(req,res)=>{
     fs.readFile('todos.json','utf-8',function(err,data){
       if (err) throw err;
       const todos = JSON.parse(data);
-      const todoParamsId = parseInt(req.params.id);
-      const todoIdx = findIndex(todos,todoParamsId);
+      const todoIdx = findIndex(todos, parseInt(req.params.id));
       if(todoIdx === -1){
         res.status(404).send()
       }
@@ -126,7 +125,8 @@ app.put('/todos/:id',(req,res)=>{
 })
 
 app.delete('/todos/:id',(req,res)=>{
-  fs.readFile('todos.json','utf-8',function(err,data){
+
+  fs.readFile('todos.json','utf-8',(err,data)=>{
       if (err) throw err
       let todos = JSON.parse(data);
       const todoIdx = findIndex(todos,parseInt(req.params.id));
@@ -137,7 +137,7 @@ app.delete('/todos/:id',(req,res)=>{
         fs.writeFile('todos.json',JSON.stringify(todos),(err)=>{
           if (err) throw err
             res.status(200).send()
-        })
+        });
       }
     })
 })
