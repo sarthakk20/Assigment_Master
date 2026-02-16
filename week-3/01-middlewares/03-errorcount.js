@@ -1,9 +1,10 @@
 const request = require('supertest');
 const assert = require('assert');
 const express = require('express');
-
+const port = 3000;
 const app = express();
 let errorCount = 0;
+
 
 // You have been given an express server which has a few endpoints.
 // Your task is to
@@ -22,5 +23,14 @@ app.post('/user', function(req, res) {
 app.get('/errorCount', function(req, res) {
   res.status(200).json({ errorCount });
 });
+
+// error handling middleware
+app.use(function errorCountFunc(error,req,res,next){
+    errorCount++
+    res.status(404).send("Not found")
+})
+// app.listen(port, () => {
+//   console.log(`Server started on port 3000 : http://localhost:${port}/`);
+// });
 
 module.exports = app;
