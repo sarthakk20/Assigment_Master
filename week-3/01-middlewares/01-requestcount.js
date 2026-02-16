@@ -1,13 +1,13 @@
 const request = require('supertest');
 const assert = require('assert');
 const express = require('express');
-
+const port = 3000;
 const app = express();
 let requestCount = 0;
 
 function calculateRequest(req,res,next){
   requestCount++;
-  console.log(requestCount);
+  // console.log(requestCount);
   next();
 }
 
@@ -16,16 +16,22 @@ function calculateRequest(req,res,next){
 // maintain a count of the number of requests made to the server in the global
 // requestCount variable
 
-app.get('/user',calculateRequest, function(req, res) {
+app.use(calculateRequest)
+
+app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
 });
 
-app.post('/user',calculateRequest, function(req, res) {
+app.post('/user', function(req, res) {
   res.status(200).json({ msg: 'created dummy user' });
 });
 
-app.get('/requestCount',calculateRequest, function(req, res) {
+app.get('/requestCount', function(req, res) {
   res.status(200).json({ requestCount });
 });
 
+
+// app.listen(port, () => {
+//   console.log(`Server started on port 3000 : http://localhost:${port}/`);
+// });
 module.exports = app;
